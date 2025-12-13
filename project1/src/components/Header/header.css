@@ -1,0 +1,39 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.header {
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    padding-left: 19px;
+    padding-right: 19px;
+    align-items: center;
+}
+.header .logo h2{
+    color: rgb(131, 15, 239);
+    font-size: 30px;
+}
+
+.header .items {
+    display: flex;
+    list-style: none;
+    justify-content: center;
+    gap: 20px;
+    align-items: center;
+}
+
+.header .items li img{
+    height: 30px;
+    width: 30px;
+}
+
+.header .items li.username{
+    font-size: 18px;
+    font-weight: 500;
+    color: rgb(55, 54, 54);
+}
