@@ -1,0 +1,100 @@
+.container {
+    padding: 12px;
+    background: rgb(246, 244, 244);
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-family: Arial, Helvetica, sans-serif
+}
+.container .hedaer h3 {
+    margin-bottom: 8px;
+    font-size: 26px;
+    color: rgb(67, 66, 67);
+}
+
+.container .hedaer p{
+    line-height: 1.4;
+    color: rgb(70, 69, 69);
+}
+
+.container .filters{
+    display: flex;
+    justify-content: center;  
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    gap: 13px;
+}
+
+.container .filters .search{
+    height: 40px;
+    border-radius: 10px;
+    flex: 4;
+}
+.container .filters .search input{
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    box-shadow: 0 0 18px rgba(0, 0, 0, 0.1);
+    padding-left: 10px;
+    font-size: 18px;
+}
+.container .filters .search input:focus{
+    border: 1px solid rgb(131, 15, 239);
+}
+
+.container .filters select {
+    border-radius: 10px;
+    width: 100px;
+    padding-left: 4px;
+    font-size: 17px;
+}
+
+.container .movies{
+    display: flex;
+    gap: 20px;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.container .movies .movie-card{
+    border-radius: 10px;
+    width: 250px;
+    border: 1px solid gray;
+    padding: 5px;
+}
+.container .movies .movie-card .img-container{
+    background: blue;
+    border-radius: 10px;
+    width: 100%;
+    height: 200px;
+    margin-bottom: 8px;
+}
+.container .movies .movie-card .img-container img{
+    border-radius: 10px;
+}
+
+.container .movies .movie-card .actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.container .movies .movie-card .actions button {
+    height: 40px;
+    width: 40px;
+    border-radius: 20px;
+    border: none;
+    background: rgba(125, 18, 226, 0.549);
+    box-shadow: 0 0 18px rgba(0, 0, 0, 0.1);
+    color: white;
+    font-size: 19px;
+    cursor: pointer;
+}
+
+.container .movies .movie-card .actions button:hover{
+    transform: scale(1.05);
+}
