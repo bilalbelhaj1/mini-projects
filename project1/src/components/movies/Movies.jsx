@@ -1,6 +1,9 @@
 import "./Movies.css"
 import test from "../../assets/test.png"
+import { useState } from "react"
 function Movies() {
+    const [search, setSearch] = useState("");
+    const [genre, setGenere] = useState("action");
   return (
     <main className="container">
         <div className="hedaer">
@@ -9,11 +12,20 @@ function Movies() {
         </div>
         <div className="filters">
             <div className="search">
-                <input type="search" className="serach-input" placeholder="Search..."/>
+                <input
+                 onChange={(e)=>{setSearch(e.target.value)}}
+                 type="search" 
+                 value={search}
+                 className="serach-input" placeholder="Search..."
+                 />
             </div>
-            <select name="genere">
-                <option value="Drama">Drama</option>
-                <option value="Action">Action</option>
+            <select
+             name="genere"
+             value={genre}
+             onChange={(e)=>{setGenere(e.target.value)}}
+            >
+                <option value="drama">Drama</option>
+                <option value="action">Action</option>
             </select>
         </div>
         <section className="movies">
