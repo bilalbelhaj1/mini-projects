@@ -22,7 +22,7 @@
   gap: 10px;
   font-size: 22px;
   font-weight: 700;
-  color: #38bdf8;
+  color: #d9232c;
 }
 
 .logo i {
@@ -68,10 +68,10 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: #38bdf8;
+  background: #e50914;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #0f172a;
+  color: #ffffff;
   font-size: 16px;
 }

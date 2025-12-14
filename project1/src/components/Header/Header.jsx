@@ -1,18 +1,22 @@
 import "./header.css";
-
+import { Link } from "@tanstack/react-router";
 function Header() {
   return (
     <header className="header">
-      <div className="logo">
-        <i className="fa-solid fa-film"></i>
-        <span>TheMovie</span>
-      </div>
+      <Link to={"/"}>
+        <div className="logo">
+          <i className="fa-solid fa-film"></i>
+          <span>TheMovie</span>
+        </div>
+      </Link>
 
       <ul className="nav">
-        <li>
-          <i className="fa-solid fa-clapperboard"></i>
-          <span>Movies</span>
-        </li>
+        <Link to={"/movies"}>
+          <li>
+            <i className="fa-solid fa-clapperboard"></i>
+            <span>Movies</span>
+          </li>
+        </Link>
         <li>
           <i className="fa-solid fa-bookmark"></i>
           <span>My Saved</span>
