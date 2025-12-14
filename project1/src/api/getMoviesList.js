@@ -1,14 +1,9 @@
-const tmdbkey = import.meta.env.VITE_ACCESS_TOKEN;
-const options = {
-  method: 'GET',
-  headers: {
-    accept: 'application/json',
-    Authorization: `Bearer ${tmdbkey}`
-  }
-};
+import { base, options } from "./api";
 
-export const getMoviesList = async (page=1) => {
-    const res = await fetch(`https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${page}&sort_by=popularity.desc`, options);
+export const getMoviesList = async (page=1, genre) => {
+    console.log(genre)
+    const res = await fetch(`${base}/discover/movie?include_adult=false&include_video=false&language=en-US&page=${page}&sort_by=popularity.desc&with_genres=${genre}`, options)
+
     const data = await res.json();
     console.log(data);
     return data;

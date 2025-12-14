@@ -1,21 +1,31 @@
-import "./header.css"
-import logo from "../../assets/react.svg"
+import "./header.css";
+
 function Header() {
   return (
-    <div className="header">
-        <span className="logo">
-            <h2>TheMovie</h2>
-        </span>
-        <ul className="items">
-            <li className="username">
-                bilal belhaj
-            </li>
-            <li>
-                <img src={logo}/>
-            </li>
-        </ul>
-    </div>
-  )
+    <header className="header">
+      <div className="logo">
+        <i className="fa-solid fa-film"></i>
+        <span>TheMovie</span>
+      </div>
+
+      <ul className="nav">
+        <li>
+          <i className="fa-solid fa-clapperboard"></i>
+          <span>Movies</span>
+        </li>
+        <li>
+          <i className="fa-solid fa-bookmark"></i>
+          <span>My Saved</span>
+        </li>
+      </ul>
+      <div className="user">
+        <span className="username">Bilal</span>
+        <div className="avatar">
+          <i className="fa-solid fa-user"></i>
+        </div>
+      </div>
+    </header>
+  );
 }
 
-export default Header
+export default Header;

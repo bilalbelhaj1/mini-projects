@@ -4,20 +4,40 @@ import { getMoviesList } from "../../api/getMoviesList";
 const IMAGE_BASE_URL="https://image.tmdb.org/t/p/";
 const POSTER_SIZE="w220_and_h330_face";
 import { useQuery } from "@tanstack/react-query";
+import { getGenres } from "../../api/getGenres";
 function Movies() {
     const [search, setSearch] = useState("");
-    const [genre, setGenere] = useState("action");
     const [page, setPage] = useState(1); 
-    const [totalPages, setTotalPages] = useState();
+    const [genre, setGenere] = useState('')
     const {isLoading, data } = useQuery({
-        queryKey: ["movies-list", page],
-        queryFn: () => getMoviesList(page),
+        queryKey: ["movies-list", page, genre],
+        queryFn: () => getMoviesList(page, genre),
         staleTime: 30000,
     });
 
+    const { data: generes } = useQuery({
+        queryKey: ["generes-list"],
+        queryFn: () => getGenres(),
+        staleTime: 300000
+    });
+
     if (isLoading) {
-        return <h2>Loadig...</h2>
-    }
+  return (
+    <main className="container">
+      <div className="movies skeleton-grid">
+        {Array.from({ length: 8 }).map((_, i) => (
+          <div key={i} className="movie-card skeleton">
+            <div className="img-container" />
+            <div className="movie-info">
+              <div className="line title" />
+              <div className="line small" />
+            </div>
+          </div>
+        ))}
+      </div>
+    </main>
+  );
+}
   return (
     <main className="container">
         <div className="hedaer">
@@ -38,8 +58,11 @@ function Movies() {
              value={genre}
              onChange={(e)=>{setGenere(e.target.value)}}
             >
-                <option value="drama">Drama</option>
-                <option value="action">Action</option>
+                {
+                    generes.genres.map(genere=>{
+                        return <option key={genere.id} value={genere.id}>{genere.name}</option>
+                    })
+                }
             </select>
         </div>
         <section className="movies">
@@ -55,8 +78,12 @@ function Movies() {
                                 <span>Action, Drama</span>
                             </div>
                             <div className="actions">
-                                <button>X</button>
-                                <button>S</button>
+                                <button className="icon-btn view" title="View details">
+                                    <i className="fa-solid fa-circle-info"></i>
+                                </button>
+                                <button className="icon-btn save" title="Save movie">
+                                    <i className="fa-solid fa-bookmark"></i>
+                                </button>
                             </div>
                         </div>
                     )
