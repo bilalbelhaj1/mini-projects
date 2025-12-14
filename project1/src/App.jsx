@@ -5,6 +5,8 @@ const queryClient = new QueryClient();
 const router = createRouter({routeTree});
 export default function App() {
   return (
-    <RouterProvider router={router}/>
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router}/>
+    </QueryClientProvider>
   )
 }

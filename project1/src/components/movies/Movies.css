@@ -98,3 +98,22 @@
 .container .movies .movie-card .actions button:hover{
     transform: scale(1.05);
 }
+
+.container .pagination {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 10px;
+}
+.container .pagination button {
+    padding: 10px 20px;
+    border: none;
+    box-shadow: 0  0 10px rgba(0, 0, 0, 0.2);
+    font-size: 19px;
+    color: rgba(125, 18, 226, 0.549);
+    border-radius: 10px;
+    background: rgb(255, 255, 255);
+    cursor: pointer;
+}

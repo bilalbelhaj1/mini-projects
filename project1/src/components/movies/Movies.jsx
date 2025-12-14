@@ -1,9 +1,23 @@
 import "./Movies.css"
-import test from "../../assets/test.png"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { getMoviesList } from "../../api/getMoviesList";
+const IMAGE_BASE_URL="https://image.tmdb.org/t/p/";
+const POSTER_SIZE="w220_and_h330_face";
+import { useQuery } from "@tanstack/react-query";
 function Movies() {
     const [search, setSearch] = useState("");
     const [genre, setGenere] = useState("action");
+    const [page, setPage] = useState(1); 
+    const [totalPages, setTotalPages] = useState();
+    const {isLoading, data } = useQuery({
+        queryKey: ["movies-list", page],
+        queryFn: () => getMoviesList(page),
+        staleTime: 30000,
+    });
+
+    if (isLoading) {
+        return <h2>Loadig...</h2>
+    }
   return (
     <main className="container">
         <div className="hedaer">
@@ -30,14 +44,14 @@ function Movies() {
         </div>
         <section className="movies">
             {
-                [1,2,3,4,5,6].map(item=>{
+                data.results.map(movie=>{
                     return (
-                        <div key={item} className="movie-card">
+                        <div key={movie.id} className="movie-card">
                             <div className="img-container">
-                                <img src={test} height={"100%"} width={"100%"} alt="" />
+                                <img src={`${IMAGE_BASE_URL}${POSTER_SIZE}${movie.backdrop_path}`} height={"100%"} width={"100%"} alt="" />
                             </div>
                             <div className="movie-info">
-                                <h3>The Dark night</h3>
+                                <h3>{movie.original_title}</h3>
                                 <span>Action, Drama</span>
                             </div>
                             <div className="actions">
@@ -48,6 +62,17 @@ function Movies() {
                     )
                 })
             }
+        </section>
+        <section className="pagination">
+            <button 
+              disabled={(page == 1) || isLoading}
+              onClick={()=>{setPage(prev => prev - 1)}} 
+            >previous</button>
+            <p>{page}({data.total_pages})</p>
+            <button
+              disabled={(page==data.total_pages) || isLoading}
+              onClick={()=>{setPage(prev=>prev + 1)}}
+            >next</button>
         </section>
     </main>
   )
