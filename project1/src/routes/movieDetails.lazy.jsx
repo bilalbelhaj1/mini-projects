@@ -1,7 +1,7 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
-import { getMovieDetails } from '../api/getMovieDetials';
-import { useQuery } from '@tanstack/react-query';
-import Movie from '../components/movieDetails/Movie';
+import { getMovieDetails } from '../api/getMovieDetials'
+import { useQuery } from '@tanstack/react-query'
+import Movie from '../components/movieDetails/Movie'
 export const Route = createLazyFileRoute('/movieDetails')({
   component: MovieDetails,
 })
@@ -11,9 +11,9 @@ function MovieDetails() {
   const { isLoading, data } = useQuery({
     queryFn: () => getMovieDetails(id),
     queryKey: [id],
-    staleTime: 300000
+    staleTime: 300000,
   })
-  if(!isLoading) {
+  if (!isLoading) {
     console.log(data)
   }
   if (isLoading) {

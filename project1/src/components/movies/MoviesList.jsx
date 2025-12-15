@@ -1,3 +1,5 @@
+import { Link } from "@tanstack/react-router";
+
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
 const POSTER_SIZE = "w220_and_h330_face";
 
@@ -6,7 +8,8 @@ function MoviesList({ movies }) {
     <section className="movies">
       {movies.map((movie) => {
         return (
-          <div key={movie.id} className="movie-card">
+          <Link to={`/movieDetails?id=${movie.id}`} >
+             <div key={movie.id} className="movie-card">
             <div className="img-container">
               <img
                 src={`${IMAGE_BASE_URL}${POSTER_SIZE}${movie.backdrop_path}`}
@@ -31,6 +34,7 @@ function MoviesList({ movies }) {
               </button>
             </div>
           </div>
+          </Link>
         );
       })}
     </section>
