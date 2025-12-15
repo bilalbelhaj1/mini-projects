@@ -14,6 +14,11 @@
   align-items: center;
   justify-content: space-between;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
 }
 
 .logo {
