@@ -2,14 +2,17 @@ import "./auth.css";
 import { account } from "../../services/appwriteClient";
 import { useState } from "react";
 import { v4 as uuid } from "uuid";
+import { useNavigate } from "@tanstack/react-router";
 
 export default function Register() {
+  const navigate = useNavigate();
   const [userData, setUserData] = useState({
     username:'',
     email:'',
     password:'',
     confirmPassword:''
   })
+  const [loading, setLoading] = useState(false);
 
   function onChange(e) {
     setUserData(prev=>({...prev,[e.target.name]:e.target.value}))
@@ -17,6 +20,7 @@ export default function Register() {
 
   async function handleSubmit(e) {
     e.preventDefault()
+    setLoading(true);
     if (userData.password !== userData.confirmPassword) {
       alert("password do not match")
       return;
@@ -28,9 +32,12 @@ export default function Register() {
         password: userData.password,
         name: userData.username,
       })
+      navigate("/login")
     } catch(err) {
       console.log(err)
       alert("Could not register you something went wrong")
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -51,7 +58,7 @@ export default function Register() {
           <label>Confirm Password</label>
           <input type="password" placeholder="Confirm your password" name="confirmPassword" value={userData.confirmPassword} onChange={(e)=>{onChange(e)}} />
 
-          <button type="submit">Register</button>
+          <button disabled={loading} type="submit">Register</button>
         </form>
         <p>
           Already have an account? <a href="/login">Login</a>
