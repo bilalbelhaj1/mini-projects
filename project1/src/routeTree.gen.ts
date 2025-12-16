@@ -16,11 +16,18 @@ import { Route as rootRoute } from './routes/__root'
 
 // Create Virtual Routes
 
+const RegisterLazyImport = createFileRoute('/register')()
 const MoviesLazyImport = createFileRoute('/movies')()
 const MovieDetailsLazyImport = createFileRoute('/movieDetails')()
+const LoginLazyImport = createFileRoute('/login')()
 const IndexLazyImport = createFileRoute('/')()
 
 // Create/Update Routes
+
+const RegisterLazyRoute = RegisterLazyImport.update({
+  path: '/register',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/register.lazy').then((d) => d.Route))
 
 const MoviesLazyRoute = MoviesLazyImport.update({
   path: '/movies',
@@ -31,6 +38,11 @@ const MovieDetailsLazyRoute = MovieDetailsLazyImport.update({
   path: '/movieDetails',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/movieDetails.lazy').then((d) => d.Route))
+
+const LoginLazyRoute = LoginLazyImport.update({
+  path: '/login',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/login.lazy').then((d) => d.Route))
 
 const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
@@ -48,6 +60,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexLazyImport
       parentRoute: typeof rootRoute
     }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/movieDetails': {
       id: '/movieDetails'
       path: '/movieDetails'
@@ -62,6 +81,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MoviesLazyImport
       parentRoute: typeof rootRoute
     }
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterLazyImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -69,42 +95,52 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
+  '/login': typeof LoginLazyRoute
   '/movieDetails': typeof MovieDetailsLazyRoute
   '/movies': typeof MoviesLazyRoute
+  '/register': typeof RegisterLazyRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
+  '/login': typeof LoginLazyRoute
   '/movieDetails': typeof MovieDetailsLazyRoute
   '/movies': typeof MoviesLazyRoute
+  '/register': typeof RegisterLazyRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
+  '/login': typeof LoginLazyRoute
   '/movieDetails': typeof MovieDetailsLazyRoute
   '/movies': typeof MoviesLazyRoute
+  '/register': typeof RegisterLazyRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/movieDetails' | '/movies'
+  fullPaths: '/' | '/login' | '/movieDetails' | '/movies' | '/register'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/movieDetails' | '/movies'
-  id: '__root__' | '/' | '/movieDetails' | '/movies'
+  to: '/' | '/login' | '/movieDetails' | '/movies' | '/register'
+  id: '__root__' | '/' | '/login' | '/movieDetails' | '/movies' | '/register'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
+  LoginLazyRoute: typeof LoginLazyRoute
   MovieDetailsLazyRoute: typeof MovieDetailsLazyRoute
   MoviesLazyRoute: typeof MoviesLazyRoute
+  RegisterLazyRoute: typeof RegisterLazyRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
+  LoginLazyRoute: LoginLazyRoute,
   MovieDetailsLazyRoute: MovieDetailsLazyRoute,
   MoviesLazyRoute: MoviesLazyRoute,
+  RegisterLazyRoute: RegisterLazyRoute,
 }
 
 export const routeTree = rootRoute
@@ -120,18 +156,26 @@ export const routeTree = rootRoute
       "filePath": "__root.jsx",
       "children": [
         "/",
+        "/login",
         "/movieDetails",
-        "/movies"
+        "/movies",
+        "/register"
       ]
     },
     "/": {
       "filePath": "index.lazy.jsx"
+    },
+    "/login": {
+      "filePath": "login.lazy.jsx"
     },
     "/movieDetails": {
       "filePath": "movieDetails.lazy.jsx"
     },
     "/movies": {
       "filePath": "movies.lazy.jsx"
+    },
+    "/register": {
+      "filePath": "register.lazy.jsx"
     }
   }
 }
