@@ -1,10 +1,7 @@
-import { createContext, useEffect, useState } from "react";
-import { useNavigate } from "@tanstack/react-router";
-export const UserContext = createContext(null);
+import { createContext, useEffect, useState } from "react";export const UserContext = createContext(null);
 
 const  UserProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    const navigate = useNavigate();
     useEffect(()=>{
         (
             async () => {
@@ -18,14 +15,12 @@ const  UserProvider = ({ children }) => {
     function login(user) {
         localStorage.setItem("user", JSON.stringify(user))
         setUser(user);
-        navigate('/movies')
     }
 
 
     function logout() {
         localStorage.removeItem("user")
         setUser('null')
-        navigate('/login')
     }
 
     return (
@@ -33,7 +28,8 @@ const  UserProvider = ({ children }) => {
       value={{
         user,
         login,
-        logout
+        logout,
+        isAuthenticated: user ? true : false
       }}
     >
         {children}

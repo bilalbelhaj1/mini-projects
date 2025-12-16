@@ -2,11 +2,13 @@ import { useContext, useState } from "react";
 import "./auth.css";
 import { account } from "../../services/appwriteClient";
 import { UserContext } from "../../contexts/userContext";
+import { redirect, useNavigate } from "@tanstack/react-router";
 export default function Login() {
   const [user, setUser] = useState({
     email:'',
     password:''
   });
+  const navigate = useNavigate();
 
   const { login } = useContext(UserContext);
 
@@ -15,15 +17,15 @@ export default function Login() {
     console.table(user);
 
     try {
-      const result = await account.createEmailPasswordSession({
+      /* const result = await account.createEmailPasswordSession({
         email: user.email ,
         password: user.password
-      });
+      }); */
       login({
-        userId: result.userId,
-        name: result.providerUid,
+        userId: "hdgdgdgh",
+        username:"bilal belhaj",
       })
-      console.log(result)
+      redirect("/movies")
     } catch(err) {
       console.log(err);
     }
