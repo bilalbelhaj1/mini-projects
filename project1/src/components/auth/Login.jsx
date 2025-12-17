@@ -2,32 +2,37 @@ import { useContext, useState } from "react";
 import "./auth.css";
 import { account } from "../../services/appwriteClient";
 import { UserContext } from "../../contexts/userContext";
-import { redirect, useNavigate } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
+
 export default function Login() {
   const [user, setUser] = useState({
-    email:'',
-    password:''
+    email: "",
+    password: "",
   });
-  const navigate = useNavigate();
 
   const { login } = useContext(UserContext);
+  const navigate = useNavigate();
 
   async function handleSubmit(e) {
-    e.preventDefault()
-    console.table(user);
+    e.preventDefault();
 
     try {
-      /* const result = await account.createEmailPasswordSession({
-        email: user.email ,
-        password: user.password
-      }); */
+      const session = await account.createEmailPasswordSession(
+        user.email,
+        user.password
+      );
+
+      const currentUser = await account.get();
+
       login({
-        userId: "hdgdgdgh",
-        username:"bilal belhaj",
-      })
-      redirect("/movies")
-    } catch(err) {
-      console.log(err);
+        userId: currentUser.$id,
+        username: currentUser.name || currentUser.email,
+      });
+
+      navigate({ to: "/movies" });
+
+    } catch (err) {
+      console.error("Login failed:", err);
     }
   }
 
@@ -35,15 +40,31 @@ export default function Login() {
     <div className="auth-container">
       <div className="auth-box">
         <h2>Login</h2>
+
         <form onSubmit={handleSubmit}>
           <label>Email</label>
-          <input type="email" placeholder="Enter your email" name="email" value={user.email} onChange={(e)=>{setUser(prev=>({...prev, email:e.target.value}))}}  />
+          <input
+            type="email"
+            placeholder="Enter your email"
+            value={user.email}
+            onChange={(e) =>
+              setUser((prev) => ({ ...prev, email: e.target.value }))
+            }
+          />
 
           <label>Password</label>
-          <input type="password" placeholder="Enter your password" name="password" value={user.password} onChange={(e)=>{setUser(prev=>({...prev, password:e.target.value}))}} />
+          <input
+            type="password"
+            placeholder="Enter your password"
+            value={user.password}
+            onChange={(e) =>
+              setUser((prev) => ({ ...prev, password: e.target.value }))
+            }
+          />
 
-          <button type="submit" >Login</button>
+          <button type="submit">Login</button>
         </form>
+
         <p>
           Don't have an account? <a href="/register">Register</a>
         </p>

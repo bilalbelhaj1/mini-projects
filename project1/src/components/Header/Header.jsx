@@ -4,6 +4,11 @@ import { Link } from "@tanstack/react-router";
 import { UserContext } from "../../contexts/userContext";
 function Header() {
   const { user, logout, isAuthenticated } = useContext(UserContext);
+
+  async function handleLogout() {
+    await logout();
+  }
+
   return (
     <header className="header">
       <Link to={"/"}>
@@ -32,7 +37,7 @@ function Header() {
             <div className="avatar">
               <i className="fa-solid fa-user"></i>
             </div>
-            <button onClick={logout} className="logout-btn">Logout</button>
+            <button onClick={handleLogout} className="logout-btn">Logout</button>
           </div>
         ) : <Link to={"/login"} ><button className="signin-btn">sign in or sign up</button></Link>
       }
