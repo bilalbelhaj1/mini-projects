@@ -1,5 +1,5 @@
 import { tablesDB } from "../services/appwriteClient";
-import { v4 as uuid } from "uuid";
+import { ID } from "appwrite";
 const DATABASE_ID = import.meta.env.VITE_DATABASE_ID;
 const TBALE_ID = import.meta.env.VITE_TABLE_ID;
 export const saveMovie = async (data) => {
@@ -7,7 +7,7 @@ export const saveMovie = async (data) => {
         const res = await tablesDB.createRow({
             databaseId: DATABASE_ID ,
             tableId: TBALE_ID ,
-            rowId: new uuid(),
+            rowId: ID.unique(),
             data
         })
         return res;

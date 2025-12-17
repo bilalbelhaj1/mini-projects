@@ -138,6 +138,7 @@
   cursor: pointer;
   transition: all 0.25s ease;
   color: white;
+  z-index: 999;
 }
 
 .icon-btn.view {

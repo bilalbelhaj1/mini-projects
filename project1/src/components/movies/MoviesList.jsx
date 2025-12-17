@@ -1,15 +1,34 @@
 import { Link } from "@tanstack/react-router";
-
+import { saveMovie } from "../../api/saveMovie";
+import { useContext } from "react";
+import { UserContext } from "../../contexts/userContext";
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
 const POSTER_SIZE = "w220_and_h330_face";
 
 function MoviesList({ movies }) {
+
+  const { user } = useContext(UserContext);
+
+  async function save(id) {
+    try {
+      const res = await saveMovie({
+        movie_id: Number(id),
+        userId: user.userId
+      })
+      console.log(res);
+      alert("Movie saved ");
+    } catch(err) {
+      console.log(err);
+      console.log("Could not save the movie something went wrong")
+    }
+  }
+
   return (
     <section className="movies">
       {movies.map((movie) => {
         return (
-          <Link to={`/movieDetails?id=${movie.id}`} >
-             <div key={movie.id} className="movie-card">
+          <Link key={movie.id} to={`/movieDetails?id=${movie.id}`} >
+             <div className="movie-card">
             <div className="img-container">
               <img
                 src={`${IMAGE_BASE_URL}${POSTER_SIZE}${movie.backdrop_path}`}
@@ -29,7 +48,8 @@ function MoviesList({ movies }) {
               <button className="icon-btn view" title="View details">
                 <i className="fa-solid fa-circle-info"></i>
               </button>
-              <button className="icon-btn save" title="Save movie">
+              <button onClick={(e)=>{e.preventDefault();
+    e.stopPropagation();save(movie.id)}} className="icon-btn save" title="Save movie">
                 <i className="fa-solid fa-bookmark"></i>
               </button>
             </div>
