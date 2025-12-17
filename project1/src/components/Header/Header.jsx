@@ -27,10 +27,12 @@ function Header() {
             <span>Movies</span>
           </li>
         </Link>
-        <li>
-          <i className="fa-solid fa-bookmark"></i>
-          <span>My Saved</span>
-        </li>
+        <Link to={"/savedMovies"} >
+           <li>
+            <i className="fa-solid fa-bookmark"></i>
+            <span>My Saved</span>
+          </li>
+        </Link>
       </ul>
       {
         isAuthenticated ? (

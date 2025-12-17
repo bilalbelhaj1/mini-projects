@@ -16,6 +16,7 @@ import { Route as rootRoute } from './routes/__root'
 
 // Create Virtual Routes
 
+const SavedmoviesLazyImport = createFileRoute('/savedmovies')()
 const RegisterLazyImport = createFileRoute('/register')()
 const MoviesLazyImport = createFileRoute('/movies')()
 const MovieDetailsLazyImport = createFileRoute('/movieDetails')()
@@ -23,6 +24,11 @@ const LoginLazyImport = createFileRoute('/login')()
 const IndexLazyImport = createFileRoute('/')()
 
 // Create/Update Routes
+
+const SavedmoviesLazyRoute = SavedmoviesLazyImport.update({
+  path: '/savedmovies',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/savedmovies.lazy').then((d) => d.Route))
 
 const RegisterLazyRoute = RegisterLazyImport.update({
   path: '/register',
@@ -88,6 +94,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegisterLazyImport
       parentRoute: typeof rootRoute
     }
+    '/savedmovies': {
+      id: '/savedmovies'
+      path: '/savedmovies'
+      fullPath: '/savedmovies'
+      preLoaderRoute: typeof SavedmoviesLazyImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -99,6 +112,7 @@ export interface FileRoutesByFullPath {
   '/movieDetails': typeof MovieDetailsLazyRoute
   '/movies': typeof MoviesLazyRoute
   '/register': typeof RegisterLazyRoute
+  '/savedmovies': typeof SavedmoviesLazyRoute
 }
 
 export interface FileRoutesByTo {
@@ -107,6 +121,7 @@ export interface FileRoutesByTo {
   '/movieDetails': typeof MovieDetailsLazyRoute
   '/movies': typeof MoviesLazyRoute
   '/register': typeof RegisterLazyRoute
+  '/savedmovies': typeof SavedmoviesLazyRoute
 }
 
 export interface FileRoutesById {
@@ -116,14 +131,34 @@ export interface FileRoutesById {
   '/movieDetails': typeof MovieDetailsLazyRoute
   '/movies': typeof MoviesLazyRoute
   '/register': typeof RegisterLazyRoute
+  '/savedmovies': typeof SavedmoviesLazyRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/movieDetails' | '/movies' | '/register'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/movieDetails'
+    | '/movies'
+    | '/register'
+    | '/savedmovies'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/movieDetails' | '/movies' | '/register'
-  id: '__root__' | '/' | '/login' | '/movieDetails' | '/movies' | '/register'
+  to:
+    | '/'
+    | '/login'
+    | '/movieDetails'
+    | '/movies'
+    | '/register'
+    | '/savedmovies'
+  id:
+    | '__root__'
+    | '/'
+    | '/login'
+    | '/movieDetails'
+    | '/movies'
+    | '/register'
+    | '/savedmovies'
   fileRoutesById: FileRoutesById
 }
 
@@ -133,6 +168,7 @@ export interface RootRouteChildren {
   MovieDetailsLazyRoute: typeof MovieDetailsLazyRoute
   MoviesLazyRoute: typeof MoviesLazyRoute
   RegisterLazyRoute: typeof RegisterLazyRoute
+  SavedmoviesLazyRoute: typeof SavedmoviesLazyRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -141,6 +177,7 @@ const rootRouteChildren: RootRouteChildren = {
   MovieDetailsLazyRoute: MovieDetailsLazyRoute,
   MoviesLazyRoute: MoviesLazyRoute,
   RegisterLazyRoute: RegisterLazyRoute,
+  SavedmoviesLazyRoute: SavedmoviesLazyRoute,
 }
 
 export const routeTree = rootRoute
@@ -159,7 +196,8 @@ export const routeTree = rootRoute
         "/login",
         "/movieDetails",
         "/movies",
-        "/register"
+        "/register",
+        "/savedmovies"
       ]
     },
     "/": {
@@ -176,6 +214,9 @@ export const routeTree = rootRoute
     },
     "/register": {
       "filePath": "register.lazy.jsx"
+    },
+    "/savedmovies": {
+      "filePath": "savedmovies.lazy.jsx"
     }
   }
 }
