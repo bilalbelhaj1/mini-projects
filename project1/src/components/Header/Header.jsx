@@ -1,12 +1,14 @@
 import "./header.css";
 import { useContext } from "react";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { UserContext } from "../../contexts/userContext";
 function Header() {
+  const navigate = useNavigate();
   const { user, logout, isAuthenticated } = useContext(UserContext);
 
   async function handleLogout() {
     await logout();
+    navigate({ to:"/login" })
   }
 
   return (

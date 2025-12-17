@@ -21,7 +21,7 @@ const  UserProvider = ({ children }) => {
     async function logout() {
         localStorage.removeItem("user")
         await account.deleteSession("current");
-        setUser('null')
+        setUser(null)
     }
 
     return (
