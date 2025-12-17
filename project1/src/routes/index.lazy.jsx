@@ -4,11 +4,3 @@ export const Route = createLazyFileRoute("/")({
   component: Home,
 });
 
-function Index() {
-  return (
-    <h2>
-      Homme ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddGoes
-      Here
-    </h2>
-  );
-}
