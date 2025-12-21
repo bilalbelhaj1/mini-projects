@@ -98,3 +98,10 @@
   font-size: 17px;
   cursor: pointer;
 }
+
+.saved-movies {
+  padding: 30px;
+  padding-top: 100px;
+  background: black;
+  min-height: 100vh;
+}

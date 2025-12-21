@@ -1,6 +1,6 @@
 import { Client, Account, TablesDB} from "appwrite";
-const ENDPOINT_URL = import.meta.env.VITE_API_ENDPOIN;
-const PROJECT_ID = import.meta.env.VITE_PROJECT_ID;
+export const ENDPOINT_URL = import.meta.env.VITE_API_ENDPOIN;
+export const PROJECT_ID = import.meta.env.VITE_PROJECT_ID;
 
 const client = new Client();
 client.setEndpoint(ENDPOINT_URL);
