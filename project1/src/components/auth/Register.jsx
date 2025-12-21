@@ -1,64 +1,44 @@
 import "./auth.css";
-import { account } from "../../services/appwriteClient";
-import { useState } from "react";
 import { v4 as uuid } from "uuid";
 import { useNavigate } from "@tanstack/react-router";
+import { useMutation } from "@tanstack/react-query";
+import { createAccount } from "../../api/auth";
 
 export default function Register() {
   const navigate = useNavigate();
-  const [userData, setUserData] = useState({
-    username:'',
-    email:'',
-    password:'',
-    confirmPassword:''
+  
+  const mutation = useMutation({
+    mutationFn: (formData) => {
+      return createAccount(
+        uuid(),
+        formData.get("username"),
+        formData.get("email"),
+        formData.get("password"),
+      )
+    }
   })
-  const [loading, setLoading] = useState(false);
 
-  function onChange(e) {
-    setUserData(prev=>({...prev,[e.target.name]:e.target.value}))
+  if (mutation.status === "success") {
+    navigate({ to:"/login" });
   }
-
-  async function handleSubmit(e) {
-    e.preventDefault()
-    setLoading(true);
-    if (userData.password !== userData.confirmPassword) {
-      alert("password do not match")
-      return;
-    }
-    try {
-      const results = await account.create({
-        userId: uuid(),
-        email: userData.email,
-        password: userData.password,
-        name: userData.username,
-      })
-      navigate("/login")
-    } catch(err) {
-      console.log(err)
-      alert("Could not register you something went wrong")
-    } finally {
-      setLoading(false);
-    }
-  }
-
   return (
     <div className="auth-container">
       <div className="auth-box">
         <h2>Register</h2>
-        <form onSubmit={(e)=>{handleSubmit(e)}}>
+        <form action={mutation.mutate}>
           <label>Username</label>
-          <input type="text" placeholder="Enter your username" name="username" value={userData.username} onChange={(e)=>{onChange(e)}}/>
+          <input type="text" placeholder="Enter your username" name="username"/>
 
           <label>Email</label>
-          <input type="email" placeholder="Enter your email" name="email" value={userData.email} onChange={(e)=>{onChange(e)}}/>
+          <input type="email" placeholder="Enter your email" name="email"/>
 
           <label>Password</label>
-          <input type="password" placeholder="Enter your password" name="password" value={userData.password} onChange={(e)=>{onChange(e)}} />
+          <input type="password" placeholder="Enter your password" name="password" />
 
           <label>Confirm Password</label>
-          <input type="password" placeholder="Confirm your password" name="confirmPassword" value={userData.confirmPassword} onChange={(e)=>{onChange(e)}} />
+          <input type="password" placeholder="Confirm your password" name="confirmPassword" />
 
-          <button disabled={loading} type="submit">Register</button>
+          <button disabled={mutation.status === "pending"} type="submit">Register</button>
         </form>
         <p>
           Already have an account? <a href="/login">Login</a>

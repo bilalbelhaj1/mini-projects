@@ -1,7 +1,4 @@
-import { useContext, useState } from "react";
 import "./auth.css";
-import { account } from "../../services/appwriteClient";
-import { UserContext } from "../../contexts/userContext";
 import { useNavigate } from "@tanstack/react-router";
 import { login } from "../../api/auth";
 import { useMutation } from "@tanstack/react-query";
@@ -13,7 +10,7 @@ export default function Login() {
       return login(
         formData.get("email"),
         formData.get("password"),
-      )
+      );
     }
   })
 
