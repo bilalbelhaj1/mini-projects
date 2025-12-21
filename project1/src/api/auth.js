@@ -10,10 +10,11 @@ export const login = async (email, password) => {
 }
 
 
-export const createAccount = async () => {
+export const createAccount = async (id, username, email, password) => {
     const response = await account.create({
+        id,
         email,
-        name,
+        name: username,
         password
     })
 
