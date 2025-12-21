@@ -3,37 +3,22 @@ import "./auth.css";
 import { account } from "../../services/appwriteClient";
 import { UserContext } from "../../contexts/userContext";
 import { useNavigate } from "@tanstack/react-router";
+import { login } from "../../api/auth";
+import { useMutation } from "@tanstack/react-query";
 
 export default function Login() {
-  const [user, setUser] = useState({
-    email: "",
-    password: "",
-  });
-
-  const { login } = useContext(UserContext);
   const navigate = useNavigate();
-
-  async function handleSubmit(e) {
-    e.preventDefault();
-
-    try {
-      const session = await account.createEmailPasswordSession(
-        user.email,
-        user.password
-      );
-
-      const currentUser = await account.get();
-
-      login({
-        userId: currentUser.$id,
-        username: currentUser.name || currentUser.email,
-      });
-
-      navigate({ to: "/movies" });
-
-    } catch (err) {
-      console.error("Login failed:", err);
+  const mutation = useMutation({
+    mutationFn: (formData) => {
+      return login(
+        formData.get("email"),
+        formData.get("password"),
+      )
     }
+  })
+
+  if (mutation.status === 'success') {
+    navigate({to:"/movies"});
   }
 
   return (
@@ -41,28 +26,22 @@ export default function Login() {
       <div className="auth-box">
         <h2>Login</h2>
 
-        <form onSubmit={handleSubmit}>
+        <form action={mutation.mutate}>
           <label>Email</label>
           <input
             type="email"
             placeholder="Enter your email"
-            value={user.email}
-            onChange={(e) =>
-              setUser((prev) => ({ ...prev, email: e.target.value }))
-            }
+            name="email"
           />
 
           <label>Password</label>
           <input
             type="password"
             placeholder="Enter your password"
-            value={user.password}
-            onChange={(e) =>
-              setUser((prev) => ({ ...prev, password: e.target.value }))
-            }
+            name="password"
           />
 
-          <button type="submit">Login</button>
+          <button type="submit" disabled={mutation.status === "pending"}>Login</button>
         </form>
 
         <p>

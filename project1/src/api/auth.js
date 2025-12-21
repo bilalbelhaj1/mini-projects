@@ -6,10 +6,6 @@ export const login = async (email, password) => {
         email,
         password
     });
-
-    if(!response.ok) {
-        throw "Something went wrong could not log you in"
-    }
     return response;
 }
 
@@ -21,7 +17,5 @@ export const createAccount = async () => {
         password
     })
 
-    if(!response.ok) {
-        throw "Something went wrong could not create your account"
-    }
+    return response;
 }
