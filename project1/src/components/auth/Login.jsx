@@ -2,6 +2,7 @@ import "./auth.css";
 import { useNavigate } from "@tanstack/react-router";
 import { login } from "../../api/auth";
 import { useMutation } from "@tanstack/react-query";
+import { useFormState } from "react-dom";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -25,26 +26,27 @@ export default function Login() {
 
         <form action={mutation.mutate}>
           <label>Email</label>
-          <input
-            type="email"
-            placeholder="Enter your email"
-            name="email"
-          />
+          <CustomeInput type="email" placeholder="Enter your email" name="email" />
 
           <label>Password</label>
-          <input
-            type="password"
-            placeholder="Enter your password"
-            name="password"
-          />
+          <CustomeInput name="password" placeholder="password" type="Password" />
 
           <button type="submit" disabled={mutation.status === "pending"}>Login</button>
         </form>
-
         <p>
           Don't have an account? <a href="/register">Register</a>
         </p>
       </div>
     </div>
   );
+}
+
+function CustomeInput(props) {
+  const { pending } = useFormState();
+  return (
+    <input
+      disabled={pending}
+      {...props}
+    />
+  )
 }

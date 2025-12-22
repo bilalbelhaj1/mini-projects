@@ -5,11 +5,16 @@ import { UserContext } from "../../contexts/userContext";
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
 const POSTER_SIZE = "w220_and_h330_face";
 
-function MoviesList({ movies }) {
+function MoviesList({ movies, savedMovies }) {
 
   const { user } = useContext(UserContext);
-
+  
   async function save(id) {
+    console.log(savedMovies);
+    if (savedMovies.includes(id)) {
+      alert("Movie already saved");
+      return;
+    }
     try {
       const res = await saveMovie({
         movie_id: Number(id),

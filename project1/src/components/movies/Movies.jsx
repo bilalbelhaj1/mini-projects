@@ -1,24 +1,37 @@
 import "./Movies.css";
-import { useState } from "react";
+import { use, useState } from "react";
 import { getMoviesList } from "../../api/getMoviesList";
 import { useQuery } from "@tanstack/react-query";
 import { getGenres } from "../../api/getGenres";
 import MoviesList from "./MoviesList";
+import { getSavedMovies } from "../../api/getSavedMovies";
+import { UserContext } from "../../contexts/userContext";
 function Movies() {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [genre, setGenere] = useState("");
+  const { user, isAuthenticated } = use(UserContext);
+  console.log("User:", user);
+  const { data: generes } = useQuery({
+    queryKey: ["generes-list"],
+    queryFn: () => getGenres(),
+    staleTime: 300000,
+  });
+
   const { isLoading, data } = useQuery({
     queryKey: ["movies-list", page, genre],
     queryFn: () => getMoviesList(page, genre),
     staleTime: 30000,
   });
 
-  const { data: generes } = useQuery({
-    queryKey: ["generes-list"],
-    queryFn: () => getGenres(),
+  const { data: savedMovies } = useQuery({
+    queryFn: () => getSavedMovies(user.userId),
+    queryKey: ["user-saved", user.userId ],
     staleTime: 300000,
-  });
+    enabled: isAuthenticated
+  })
+
+  const userSavedMovies = savedMovies ? savedMovies.rows.map(m => m.movie_id) : [];
   return (
     <main className="container">
       <div className="hedaer">
@@ -60,7 +73,7 @@ function Movies() {
         ) : null}
       </div>
       {!isLoading ? (
-        <MoviesList movies={data.results} />
+        <MoviesList movies={data.results} savedMovies={userSavedMovies}/>
       ) : (
         <main className="container">
           <div className="movies skeleton-grid">

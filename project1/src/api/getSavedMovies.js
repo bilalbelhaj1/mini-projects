@@ -13,6 +13,7 @@ export const getSavedMovies = async (userId) => {
                 Query.equal('userId', userId),
             ]
         })
+        console.log(data);
         return data;
     } catch(err) {
         console.log(err)

@@ -36,7 +36,7 @@ const  UserProvider = ({ children }) => {
       value={{
         user,
         logout,
-        isAuthenticated: !!user
+        isAuthenticated: user ? true : false
       }}
     >
         {loading ? <h1>Authenticating...</h1> : children}
