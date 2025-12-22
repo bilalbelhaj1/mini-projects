@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { saveMovie } from "../../api/saveMovie";
+import { saveMovie, unsaveMovie } from "../../api/saveMovie";
 import { useContext } from "react";
 import { UserContext } from "../../contexts/userContext";
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
@@ -12,7 +12,15 @@ function MoviesList({ movies, savedMovies }) {
   async function save(id) {
     console.log(savedMovies);
     if (savedMovies.includes(id)) {
-      alert("Movie already saved");
+      // remove from saved Movies
+      try {
+        const res = await unsaveMovie(user.userId, Number(id));
+        console.log(res);
+        alert("Movie removed from saved Movies")
+      } catch  (err) {
+        console.log(err)
+        console.log("Something went wrong")
+      }
       return;
     }
     try {
