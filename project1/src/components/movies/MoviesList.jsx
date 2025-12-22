@@ -10,9 +10,9 @@ function MoviesList({ movies, savedMovies }) {
   const { user } = useContext(UserContext);
   
   async function save(id) {
+    console.log(id);
     console.log(savedMovies);
     if (savedMovies.includes(id)) {
-      // remove from saved Movies
       try {
         const res = await unsaveMovie(user.userId, Number(id));
         console.log(res);

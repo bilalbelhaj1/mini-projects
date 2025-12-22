@@ -13,14 +13,14 @@ function SavedMoviesList({ ids }) {
 
   const movies = isLoading ? [] : results.map(res => res.data);
 
-  console.log(movies);
+  const savedMovies = ids.map(id=>id.movie_id);
 
   if (isLoading) {
     return <h2>Loading...</h2>
   }
   return (
     <div className="saved-movies">
-        <MoviesList movies={movies} />
+        <MoviesList movies={movies} savedMovies={savedMovies} />
     </div>
   )
 }
