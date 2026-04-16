@@ -1,6 +1,6 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 import { requireAuth } from '../services/requireAuth'
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import { UserContext } from '../contexts/userContext'
 import SavedMoviesList from '../components/SavedMovies/SavedMoviesList'
 import { useQuery } from '@tanstack/react-query'
@@ -17,7 +17,7 @@ function SavedMovies() {
     queryFn: ()=>getSavedMovies(user.userId),
     staleTime: 3000
   });
-  if(isLoading) return <h2 style={{paddingTop: "200px"}}>Loading.....</h2>
+  if(isLoading) return <h2 style={{paddingTop: "200px"}}>Loading...</h2>
 
   return <SavedMoviesList ids={data.rows} />
 }
